@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Plan</title>
+</head>
+<body>
+
+    <h1>Formulario de Plan del Gimnasio</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ formulario.as_p }}
+
+        <button type="submit">
+            Guardar Plan
+        </button>
+    </form>
+
+    <br>
+
+    <a href="{% url 'lista_planes' %}">
+        Volver a la lista de planes
+    </a>
+
+</body>
+</html>

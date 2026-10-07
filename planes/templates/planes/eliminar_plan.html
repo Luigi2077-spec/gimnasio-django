@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminar Plan</title>
+</head>
+<body>
+
+    <h1>Eliminar Plan del Gimnasio</h1>
+
+    <p>
+        ¿Estás seguro de que deseas eliminar
+        el plan "{{ plan.nombre }}"?
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <button type="submit">
+            Sí, eliminar plan
+        </button>
+    </form>
+
+    <br>
+
+    <a href="{% url 'lista_planes' %}">
+        Cancelar y volver
+    </a>
+
+</body>
+</html>

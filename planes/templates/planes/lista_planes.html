@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Planes del gimnasio</title>
+</head>
+<body>
+    <h1>Planes del gimnasio</h1>
+
+    <a href="{% url 'crear_plan' %}">
+        Agregar nuevo plan
+    </a>
+
+    <hr>
+
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Duración</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+
+        {% for plan in planes %}
+        <tr>
+            <td>{{ plan.nombre }}</td>
+            <td>{{ plan.descripcion }}</td>
+            <td>${{ plan.precio }}</td>
+            <td>{{ plan.duracion_dias }} días</td>
+            <td>
+                {% if plan.activo %}
+                    Activo
+                {% else %}
+                    Inactivo
+                {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'editar_plan' plan.pk %}">
+                    Editar
+                </a>
+                |
+                <a href="{% url 'eliminar_plan' plan.pk %}">
+                    Eliminar
+                </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">
+                No hay planes registrados.
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
