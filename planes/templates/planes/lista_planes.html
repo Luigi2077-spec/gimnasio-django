@@ -11,84 +11,104 @@
 
 <body class="bg-light">
 
-<nav class="navbar navbar-dark bg-dark">
-    <div class="container">
-        <span class="navbar-brand mb-0 h1">
-            Sistema de Gimnasio
-        </span>
-    </div>
-</nav>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container">
+            <a href="/" class="navbar-brand mb-0 h1">
+                Sistema de Gimnasio
+            </a>
+        </div>
+    </nav>
 
-<div class="container mt-5">
+    <main class="container mt-5">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Planes del Gimnasio</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Planes del Gimnasio</h2>
 
-        <a href="{% url 'crear_plan' %}" class="btn btn-success">
-            + Agregar Plan
-        </a>
-    </div>
+            <a href="{% url 'crear_plan' %}" class="btn btn-success">
+                + Agregar Plan
+            </a>
+        </div>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-striped table-hover align-middle">
+        <div class="card shadow-sm">
+            <div class="card-body">
 
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Precio</th>
-                            <th>Duración</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
 
-                    <tbody>
-                        {% for plan in planes %}
-                        <tr>
-                            <td>{{ plan.nombre }}</td>
-                            <td>{{ plan.descripcion }}</td>
-                            <td>${{ plan.precio }}</td>
-                            <td>{{ plan.duracion_dias }} días</td>
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Precio</th>
+                                <th>Duración</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
 
-                            <td>
-                                {% if plan.activo %}
-                                    <span class="badge bg-success">Activo</span>
-                                {% else %}
-                                    <span class="badge bg-danger">Inactivo</span>
-                                {% endif %}
-                            </td>
+                        <tbody>
+                            {% for plan in planes %}
+                            <tr>
+                                <td>{{ plan.nombre }}</td>
 
-                            <td>
-                                <a href="{% url 'editar_plan' plan.id %}"
-                                   class="btn btn-warning btn-sm">
-                                    Editar
-                                </a>
+                                <td>{{ plan.descripcion }}</td>
 
-                                <a href="{% url 'eliminar_plan' plan.id %}"
-                                   class="btn btn-danger btn-sm">
-                                    Eliminar
-                                </a>
-                            </td>
-                        </tr>
+                                <td>${{ plan.precio|floatformat:2 }}</td>
 
-                        {% empty %}
-                        <tr>
-                            <td colspan="6" class="text-center">
-                                No hay planes registrados.
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
+                                <td>{{ plan.duracion_dias }} días</td>
 
-                </table>
+                                <td>
+                                    {% if plan.activo %}
+                                        <span class="badge bg-success">
+                                            Activo
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">
+                                            Inactivo
+                                        </span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    <div class="d-flex gap-2">
+
+                                        <a href="{% url 'editar_plan' plan.pk %}"
+                                           class="btn btn-warning btn-sm">
+                                            Editar
+                                        </a>
+
+                                        <a href="{% url 'eliminar_plan' plan.pk %}"
+                                           class="btn btn-danger btn-sm">
+                                            Eliminar
+                                        </a>
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center">
+                                    No hay planes registrados.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+
             </div>
         </div>
-    </div>
 
-</div>
+        <!-- BOTÓN VOLVER AL INICIO -->
+        <div class="mt-4">
+            <a href="/" class="btn btn-secondary">
+                Volver al inicio
+            </a>
+        </div>
+
+    </main>
 
 </body>
 </html>

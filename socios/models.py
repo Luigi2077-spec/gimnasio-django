@@ -11,5 +11,13 @@ class Socio(models.Model):
     fecha_inscripcion = models.DateField(auto_now_add=True)
     activo = models.BooleanField(default=True)
 
+    plan = models.ForeignKey(
+        'planes.Plan',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='socios'
+    )
+
     def __str__(self):
         return f"{self.nombre} {self.apellido}"

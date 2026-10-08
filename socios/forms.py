@@ -1,9 +1,12 @@
 
 from django import forms
+from django.db.models import Q
 from .models import Socio
+from planes.models import Plan
 
 
 class SocioForm(forms.ModelForm):
+
     class Meta:
         model = Socio
 
@@ -13,6 +16,7 @@ class SocioForm(forms.ModelForm):
             'rut',
             'correo',
             'telefono',
+            'plan',
             'activo',
         ]
 
@@ -37,11 +41,31 @@ class SocioForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': '+56912345678',
             }),
+            'plan': forms.Select(attrs={
+                'class': 'form-select',
+            }),
             'activo': forms.CheckboxInput(attrs={
                 'class': 'form-check-input',
             }),
         }
-        
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Mostrar solamente planes activos
+        planes = Plan.objects.filter(activo=True)
+
+        # Conservar el plan actual al editar un socio
+        # aunque ese plan haya sido desactivado
+        if self.instance.pk and self.instance.plan_id:
+            planes = Plan.objects.filter(
+                Q(activo=True) |
+                Q(pk=self.instance.plan_id)
+            )
+
+        self.fields['plan'].queryset = planes
+        self.fields['plan'].empty_label = 'Sin plan asignado'
+
     def clean_rut(self):
         rut = self.cleaned_data['rut']
 
@@ -50,14 +74,18 @@ class SocioForm(forms.ModelForm):
 
         # Comprobar que tenga al menos 2 caracteres
         if len(rut) < 2:
-            raise forms.ValidationError('El RUT ingresado no es válido.')
+            raise forms.ValidationError(
+                'El RUT ingresado no es válido.'
+            )
 
         numero = rut[:-1]
         digito_verificador = rut[-1]
 
         # Verificar que el cuerpo del RUT sea numérico
         if not numero.isdigit():
-            raise forms.ValidationError('El RUT debe contener números válidos.')
+            raise forms.ValidationError(
+                'El RUT debe contener números válidos.'
+            )
 
         # Calcular dígito verificador mediante módulo 11
         suma = 0
@@ -80,11 +108,13 @@ class SocioForm(forms.ModelForm):
             digito_calculado = str(resultado)
 
         if digito_verificador != digito_calculado:
-            raise forms.ValidationError('El dígito verificador del RUT es incorrecto.')
+            raise forms.ValidationError(
+                'El dígito verificador del RUT es incorrecto.'
+            )
 
         # Guardar el RUT en formato normalizado
         return f'{numero}-{digito_verificador}'
-    
+
     def clean_telefono(self):
         telefono = self.cleaned_data['telefono']
 
@@ -110,5 +140,3 @@ class SocioForm(forms.ModelForm):
             )
 
         return telefono
-
-
