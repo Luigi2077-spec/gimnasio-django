@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,15 +14,24 @@
 
     <nav class="navbar navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand fw-bold" href="/">
                 Sistema de Gimnasio
             </a>
         </div>
     </nav>
 
+    <header class="position-relative text-white text-center"
+            style="background: url('{% static 'img/gim.jpg' %}') center/cover no-repeat; min-height: 340px;">
+        <div class="bg-dark bg-opacity-50 d-flex flex-column justify-content-center align-items-center h-100 py-5"
+             style="min-height: 340px;">
+            <h1 class="display-4 fw-bold">Sistema de Gimnasio</h1>
+            <p class="lead mb-0">Gestiona tus socios y planes desde un solo lugar.</p>
+        </div>
+    </header>
+
     <main class="container py-5">
 
-        <h1 class="text-center mb-3">Panel de Administración</h1>
+        <h2 class="text-center mb-3">Panel de Administración</h2>
 
         <p class="text-center text-muted mb-5">
             Selecciona el módulo que deseas administrar.
@@ -30,7 +40,7 @@
         <div class="row justify-content-center g-4">
 
             <div class="col-md-5">
-                <div class="card shadow-sm h-100">
+                <div class="card shadow-sm h-100 border-0">
                     <div class="card-body text-center p-4">
                         <h3>Gestión de Socios</h3>
                         <p class="text-muted">
@@ -44,7 +54,7 @@
             </div>
 
             <div class="col-md-5">
-                <div class="card shadow-sm h-100">
+                <div class="card shadow-sm h-100 border-0">
                     <div class="card-body text-center p-4">
                         <h3>Gestión de Planes</h3>
                         <p class="text-muted">

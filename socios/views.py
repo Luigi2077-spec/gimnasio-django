@@ -1,6 +1,5 @@
-
 from django.shortcuts import render, redirect, get_object_or_404
-
+from django.contrib.auth.decorators import login_required
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -13,6 +12,7 @@ from .serializers import SocioSerializer
 # ==========================================
 # VISTAS WEB DE SOCIOS
 # ==========================================
+@login_required
 
 def lista_socios(request):
     socios = Socio.objects.select_related('plan').all()
@@ -21,7 +21,7 @@ def lista_socios(request):
         'socios': socios
     })
 
-
+@login_required
 def crear_socio(request):
     if request.method == 'POST':
         formulario = SocioForm(request.POST)
@@ -37,7 +37,7 @@ def crear_socio(request):
         'formulario': formulario
     })
 
-
+@login_required
 def editar_socio(request, pk):
     socio = get_object_or_404(Socio, pk=pk)
 
@@ -56,7 +56,7 @@ def editar_socio(request, pk):
         'socio': socio
     })
 
-
+@login_required
 def eliminar_socio(request, pk):
     socio = get_object_or_404(Socio, pk=pk)
 

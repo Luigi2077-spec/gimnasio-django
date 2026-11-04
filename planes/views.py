@@ -1,6 +1,5 @@
-
 from django.shortcuts import render, redirect, get_object_or_404
-
+from django.contrib.auth.decorators import login_required
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -14,6 +13,8 @@ from .serializers import PlanSerializer
 # VISTAS WEB DE PLANES
 # ==========================================
 
+@login_required
+
 def lista_planes(request):
     planes = Plan.objects.all()
 
@@ -21,7 +22,7 @@ def lista_planes(request):
         'planes': planes
     })
 
-
+@login_required
 def crear_plan(request):
     if request.method == 'POST':
         formulario = PlanForm(request.POST)
@@ -36,7 +37,7 @@ def crear_plan(request):
         'formulario': formulario
     })
 
-
+@login_required
 def editar_plan(request, pk):
     plan = get_object_or_404(Plan, pk=pk)
 
@@ -53,7 +54,7 @@ def editar_plan(request, pk):
         'formulario': formulario
     })
 
-
+@login_required
 def eliminar_plan(request, pk):
     plan = get_object_or_404(Plan, pk=pk)
 
