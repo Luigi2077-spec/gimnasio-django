@@ -22,7 +22,7 @@ def lista_planes(request):
         'planes': planes
     })
 
-
+@login_required
 def crear_plan(request):
     if request.method == 'POST':
         formulario = PlanForm(request.POST)
@@ -37,7 +37,7 @@ def crear_plan(request):
         'formulario': formulario
     })
 
-
+@login_required
 def editar_plan(request, pk):
     plan = get_object_or_404(Plan, pk=pk)
 
@@ -54,7 +54,7 @@ def editar_plan(request, pk):
         'formulario': formulario
     })
 
-
+@login_required
 def eliminar_plan(request, pk):
     plan = get_object_or_404(Plan, pk=pk)
 
