@@ -1,6 +1,5 @@
-
 from django.shortcuts import render, redirect, get_object_or_404
-
+from django.contrib.auth.decorators import login_required
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -13,6 +12,8 @@ from .serializers import PlanSerializer
 # ==========================================
 # VISTAS WEB DE PLANES
 # ==========================================
+
+@login_required
 
 def lista_planes(request):
     planes = Plan.objects.all()
