@@ -26,6 +26,23 @@ class PruebasLoginWeb(TestCase):
         self.client.login(username='tester', password='clave-segura-123')
         respuesta = self.client.get('/socios/')
         self.assertEqual(respuesta.status_code, 200)
+    
+    def test_todas_las_vistas_web_redirigen_sin_sesion(self):
+        urls = [
+            '/planes/',
+            '/planes/crear/',
+            '/planes/editar/1/',
+            '/planes/eliminar/1/',
+            '/socios/',
+            '/socios/crear/',
+            '/socios/editar/1/',
+            '/socios/eliminar/1/',
+        ]
+        for url in urls:
+            with self.subTest(url=url):
+                respuesta = self.client.get(url)
+                self.assertEqual(respuesta.status_code, 302)
+                self.assertIn('/login/', respuesta.url)    
 
 
 class PruebasAutenticacionApi(TestCase):
